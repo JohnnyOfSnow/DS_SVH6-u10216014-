@@ -163,7 +163,7 @@ public class GradeFrame extends JFrame {
 		}
 		return dataArray;
 	} // end SortDataBaseOnIntArray method.
-	
+
 	static String[] SortDataBaseOnStringArray(String[] originalArray, String[] sortedArray, String[] dataArray){
 		for(int i = 1; i < originalArray.length; i++){
 			for(int u = 1; u < sortedArray.length; u++){
@@ -184,7 +184,25 @@ public class GradeFrame extends JFrame {
 		return dataArray;
 	} // end SortDataBaseOnStringArray method.
 
+	static int binarysearch(String[] sortedArray, String key){
 
+		int low = 1;
+		int mid = 0;
+		int high = 0;
+		high = sortedArray.length - 1;
+		while(low <= high){
+			mid = (int)((low + high) / 2);
+			if(sortedArray[mid].compareTo(key) < 0){
+				low = mid + 1;
+			}else if(sortedArray[mid].compareTo(key) > 0){
+				high = mid - 1;
+			}else{
+				return (mid);
+			}
+		}
+
+		return (-1);
+	}
 }
 
 /**
