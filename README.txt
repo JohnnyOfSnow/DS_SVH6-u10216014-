@@ -5,13 +5,13 @@ DS_SVH6-u10216014-
 
 DS程式作業6：三大排序及二分搜尋實作
 說明：
-(1)	實作Merge sort、Heap sort、Quick sort、insertion sort、Binary search
-(2)	以GUI實作
-(3)	待排序資料檔案格式如下
-  Cat, 90, 40
-  Dog, 75, 60
-  Pig, 89, 85
-  ＊(第1欄：姓名，第2欄：math，第3欄：English)
+(1)實作Merge sort、Heap sort、Quick sort、insertion sort、Binary search
+(2)以GUI實作
+(3)待排序資料檔案格式如下
+    Cat, 90, 40
+    Dog, 75, 60
+    Pig, 89, 85
+        ＊(第1欄：姓名，第2欄：math，第3欄：English)
 (4)	姓名以Merge sort完成
     Math以Heap sort完成
     English以Quick sort完成
