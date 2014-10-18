@@ -30,6 +30,7 @@ public class GradeFrame extends JFrame {
 	JButton btnNewButton_3 = new JButton("math\u6392\u5E8F"); // click it can do Heap sort base on math grade
 	JButton btnNewButton_4 = new JButton("English\u6392\u5E8F"); // click it can do Quick sort base on english grade
 	JButton btnNewButton_5 = new JButton("\u5E73\u5747\u6392\u5E8F"); // click it can do insertion sort base on average grade evaluted by math and english grade
+	JButton btnNewButton_6 = new JButton("\u958B\u59CB\u641C\u5C0B");
 	static int readyPassCapacity;
 	static boolean check = false;
 
@@ -108,6 +109,10 @@ public class GradeFrame extends JFrame {
 		
 		btnNewButton_5.setBounds(348, 98, 87, 23);
 		panel.add(btnNewButton_5);
+
+
+		btnNewButton_6.setBounds(301, 140, 87, 23);
+		panel.add(btnNewButton_6);
 		
 		JLabel lblNewLabel_2 = new JLabel("\u8F38\u5165\u641C\u5C0B\u59D3\u540D\uFF1A\r\n");
 		lblNewLabel_2.setBounds(22, 144, 96, 15);
@@ -151,6 +156,7 @@ public class GradeFrame extends JFrame {
 		btnNewButton_3.addActionListener(new ButtonListener()); // Register listener.
 		btnNewButton_4.addActionListener(new ButtonListener()); // Register listener.
 		btnNewButton_5.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_6.addActionListener(new ButtonListener()); // Register listener.
 	}
 
 	GradeFrame(int number){
@@ -220,7 +226,7 @@ public class GradeFrame extends JFrame {
 				if(check == true){
 					requireFileWriteData(textField_1.getText(), textArea.getText());
 				}else{
-					
+
 				}
 				
 			}else if(e.getSource() == btnNewButton_2){
@@ -336,7 +342,47 @@ public class GradeFrame extends JFrame {
 				}else{
 
 				}
-				
+			}else if(e.getSource() == btnNewButton_6){	
+				if(check == true){
+					handleSort obj6 = new handleSort();
+
+					String readResult = obj6.readData(textField.getText());
+					String[] ori = obj6.name;
+					String[] sort = obj6.MergeSort(ori,1,ori.length - 1);
+
+					String[] oridat = obj6.readData;
+					String[] ol = SortDataBaseOnStringArray(ori,sort,oridat);
+
+					String wamted = textField_2.getText();
+
+					int result = binarysearch(sort,wamted);
+					String judge = "";
+					if(result == -1){
+						textArea_1.setText("The name don't find in the file: " + textField.getText());
+					}else{
+						String[] arf = ol[result].split(",");
+						int avg = (Integer.parseInt(arf[1]) + Integer.parseInt(arf[2])) / 2;
+						switch(avg / 10){
+							case 10:
+							case 9:
+								judge = "Excellent";
+							break;
+							case 8:
+							case 7:
+								judge = "Great";
+							break;
+							case 6:
+								judge = "Ordinary";
+							break;
+							default:
+								judge = "Worse";
+						}
+						textArea_1.setText("Name: "+ arf[0] + " Math grade: " + arf[1] + " English grade: " 
+							+ arf[2] + " AVG = " + avg  + " (" + judge + ")");
+					}
+				}else{
+
+				}
 			}else{
 				System.out.println("A error occur for the class ButtonListener inside a method actionPerformed");
 			}// end if
@@ -427,8 +473,6 @@ public class GradeFrame extends JFrame {
  *		MergeSort:
  *			1.MergeSort(String[] A, int i, int j)
  *			2.Merge(String[] A, int i, int m, int j)
- *
- *
  */
 class handleSort{
 	private static int heapSize = 0;
