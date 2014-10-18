@@ -12,8 +12,8 @@ import java.awt.ScrollPane;
 import java.awt.TextArea;
 import java.io.*;
 import java.util.Scanner;
-
-
+import java.awt.event.*;
+import java.io.FileNotFoundException;
 
 public class GradeFrame extends JFrame {
 
@@ -30,7 +30,8 @@ public class GradeFrame extends JFrame {
 	JButton btnNewButton_3 = new JButton("math\u6392\u5E8F"); // click it can do Heap sort base on math grade
 	JButton btnNewButton_4 = new JButton("English\u6392\u5E8F"); // click it can do Quick sort base on english grade
 	JButton btnNewButton_5 = new JButton("\u5E73\u5747\u6392\u5E8F"); // click it can do insertion sort base on average grade evaluted by math and english grade
-
+	static int readyPassCapacity;
+	static boolean check = false;
 
 	/**
 	 * Launch the application.
@@ -86,6 +87,7 @@ public class GradeFrame extends JFrame {
 		textField_1.setBounds(128, 53, 163, 21);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
+		textField_1.setText("myResult.txt");
 		
 		JLabel lblNewLabel_1 = new JLabel("\u7D50\u679C\u6A94\u6848\u540D\uFF1A");
 		lblNewLabel_1.setBounds(22, 56, 96, 15);
@@ -142,7 +144,204 @@ public class GradeFrame extends JFrame {
 		textArea_2.setEditable(false);
 		textArea_2.setBounds(22, 489, 366, 138);
 		panel.add(textArea_2);
+
+		btnNewButton.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_1.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_2.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_3.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_4.addActionListener(new ButtonListener()); // Register listener.
+		btnNewButton_5.addActionListener(new ButtonListener()); // Register listener.
 	}
+
+	GradeFrame(int number){
+
+	}
+
+	static void requireFileWriteData(String fileName, String data1){
+
+			FileWriter fw = null;
+
+			try{
+				fw = new FileWriter(fileName, false); // true: does not overwrite the previous contents.
+				fw.write(data1);
+			}// end try
+			catch(IOException e) {}
+			finally {
+				try {
+					fw.close();
+				}// end try
+
+				catch(IOException e) {}
+			}// end finally
+	}// end method requireFileWriteData.
+
+	// A class is responsible for action presentation.
+	private class ButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == btnNewButton){
+				FileReader fr = null;
+				BufferedReader br = null;
+				File file = new File(textField.getText());
+				if(file.exists()){
+					try {
+						try {
+							fr = new FileReader(textField.getText()); // A file holds the question.
+							br = new BufferedReader(fr);
+							String data;
+							data = br.readLine();
+							int integerAmount = Integer.parseInt(data);
+							setCheckArraySize(integerAmount);
+							handleSort obj = new handleSort();
+							String readResult = obj.readData(textField.getText());
+							StringBuilder stringBuilderForProcess = new StringBuilder();
+							stringBuilderForProcess.append("start read data from the file: " + textField.getText() + "\r\n"
+								 + readResult);
+							String stringForProcess = new String(stringBuilderForProcess);
+							textArea_2.setText(stringForProcess);
+							check = true;
+							
+						}catch(IOException e1){}
+						finally{
+							try {
+								br.close(); // Because the br = new BufferedReader(fr); , we close the br.
+							}
+							catch(IOException e1){}
+						} // end finally
+						
+					} catch (Exception e1) {
+							
+					}				
+				}else{
+					// File not exist.
+				}		
+			}else if(e.getSource() == btnNewButton_1){
+				if(check == true){
+					requireFileWriteData(textField_1.getText(), textArea.getText());
+				}else{
+					
+				}
+				
+			}else if(e.getSource() == btnNewButton_2){
+				if(check == true){
+					handleSort obj1 = new handleSort();
+
+					String readResult = obj1.readData(textField.getText());
+					String[] ori = obj1.name;
+					String[] sort = obj1.MergeSort(ori,1,ori.length - 1);
+
+					String[] oridat = obj1.readData;
+					String[] ol = SortDataBaseOnStringArray(ori,sort,oridat);
+
+					StringBuilder stringBuilderForNameSortResult = new StringBuilder();
+					stringBuilderForNameSortResult.append("start sort the name in MergeSort:" + "\r\n");
+					for(int r = 1; r < ol.length; r++){
+						stringBuilderForNameSortResult.append(ol[r] + "\r\n");
+					}
+
+					String stringForNameSortResult = new String(stringBuilderForNameSortResult);
+					textArea.setText(stringForNameSortResult);
+				}else{
+
+				}
+			}else if(e.getSource() == btnNewButton_3){
+				if(check == true){
+					handleSort obj2 = new handleSort();
+
+					String readResult = obj2.readData(textField.getText());
+					int[] ori = obj2.mathGrade;
+					int[] b = new int[ori.length];
+
+					for(int s = 0; s < ori.length; s++){
+						b[s] = ori[s];
+					}
+				
+					int[] sort = obj2.HeapSort(b);
+
+					String[] oridat = obj2.readData;
+					String[] ol = SortDataBaseOnIntArray(ori,sort,oridat);
+
+					StringBuilder stringBuilderForMathGradeSortResult = new StringBuilder();
+					stringBuilderForMathGradeSortResult.append("start sort the math grade in HeapSort:" + "\r\n");
+					for(int r = 1; r < ol.length; r++){
+						stringBuilderForMathGradeSortResult.append(ol[r] + "\r\n");
+					}
+
+					String stringForMathGradeSortResult = new String(stringBuilderForMathGradeSortResult);
+					textArea.setText(stringForMathGradeSortResult);
+				}else{
+
+				}
+				
+
+			}else if(e.getSource() == btnNewButton_4){
+				if(check == true){
+					handleSort obj3 = new handleSort();
+
+					String readResult = obj3.readData(textField.getText());
+					int[] ori = obj3.englishGrade;
+					int[] b = new int[ori.length];
+
+					for(int s = 0; s < ori.length; s++){
+						b[s] = ori[s];
+					}
+
+					int[] sort = obj3.QuickSort(b, 1, b.length - 1);
+
+					String[] oridat = obj3.readData;
+					String[] ol = SortDataBaseOnIntArray(ori,sort,oridat);
+
+					StringBuilder stringBuilderForEnglishGradeSortResult = new StringBuilder();
+					stringBuilderForEnglishGradeSortResult.append("start sort the english grade in QuickSort:" + "\r\n");
+					for(int r = 1; r < ol.length; r++){
+						stringBuilderForEnglishGradeSortResult.append(ol[r] + "\r\n");
+					}
+
+					String stringForEnglishGradeSortResult = new String(stringBuilderForEnglishGradeSortResult);
+					textArea.setText(stringForEnglishGradeSortResult);
+				}else{
+
+				}		
+			}else if(e.getSource() == btnNewButton_5){
+				if(check == true){
+					handleSort obj4 = new handleSort();
+
+					String readResult = obj4.readData(textField.getText());
+					int[] ori = obj4.averageGrade;
+
+					int[] b = new int[ori.length];
+
+					for(int s = 0; s < ori.length; s++){
+						b[s] = ori[s];
+					}
+
+					for(int i = 1; i < b.length; i++){
+						System.out.println("The average result b[" + i + "] is: " + b[i]);
+					}
+
+					int[] sort = obj4.InsertionSort(b);
+
+					String[] oridat = obj4.readData;
+					String[] ol = SortDataBaseOnIntArray(ori,sort,oridat);
+
+					StringBuilder stringBuilderForAverageGradeSortResult = new StringBuilder();
+					stringBuilderForAverageGradeSortResult.append("start sort the Average grade in InsertionSort:" + "\r\n");
+					for(int r = 1; r < ol.length; r++){
+						stringBuilderForAverageGradeSortResult.append(ol[r] + "\r\n");
+					}
+
+					String stringForAverageGradeSortResult = new String(stringBuilderForAverageGradeSortResult);
+					textArea.setText(stringForAverageGradeSortResult);
+				}else{
+
+				}
+				
+			}else{
+				System.out.println("A error occur for the class ButtonListener inside a method actionPerformed");
+			}// end if
+		}// end method actionPerformed
+	}// end inner class ButtonListener
 
 	static String[] SortDataBaseOnIntArray(int[] originalArray, int[] sortedArray, String[] dataArray){
 		for(int i = 1; i < originalArray.length; i++){
@@ -200,8 +399,15 @@ public class GradeFrame extends JFrame {
 				return (mid);
 			}
 		}
-
 		return (-1);
+	}
+
+	public static void setCheckArraySize(int newCapacity){
+		readyPassCapacity = newCapacity;
+	}
+
+	public static int getCheckArraySize(){
+		return readyPassCapacity;
 	}
 }
 
@@ -227,6 +433,22 @@ public class GradeFrame extends JFrame {
 class handleSort{
 	private static int heapSize = 0;
 
+	static String[] readData;
+	static String[] name;
+	static int[] mathGrade;
+	static int[] englishGrade;
+	static int[] averageGrade;
+
+	static{
+		GradeFrame object = new GradeFrame(3);
+		int initializationNumber = object.getCheckArraySize() + 1;
+		readData = new String[initializationNumber];
+		name = new String[initializationNumber];
+		mathGrade = new int[initializationNumber];
+		englishGrade = new int[initializationNumber];
+		averageGrade = new int[initializationNumber];		
+	}
+
 	handleSort(){
 
 	}
@@ -236,12 +458,6 @@ class handleSort{
 		FileReader fr = null;
 		BufferedReader br = null;
 		String stringforreadData = "";
-		String[] readData = new String[5];
-		String[] name = new String[5];
-		int[] mathGrade = new int[5];
-		int[] englishGrade = new int[5];
-		int[] averageGrade = new int[5];
-
 		StringBuilder readDataStringBuilder = new StringBuilder();
 
 		try {
@@ -259,7 +475,7 @@ class handleSort{
 				name[index] = dataArray[0];
 				mathGrade[index] = Integer.parseInt(dataArray[1]);
 				englishGrade[index] = Integer.parseInt(dataArray[2]);
-				averageGrade[index] = (mathGrade[index] + englishGrade[index]) / 2;
+				averageGrade[index] = ((mathGrade[index] + englishGrade[index]) / 2);
 				index = index + 1;
 			}
 
@@ -387,8 +603,7 @@ class handleSort{
 			}else{
 				return j;
 			}
-		}
-		
+		}	
 	}
 
 	static String[] MergeSort(String[] A, int i, int j){
@@ -442,5 +657,4 @@ class handleSort{
 		}		
 		return b;
 	} 
-
 }
