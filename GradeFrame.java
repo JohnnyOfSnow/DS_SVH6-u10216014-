@@ -180,6 +180,9 @@ public class GradeFrame extends JFrame {
  *		QuickSort:
  *			1.QuickSort(int[] A, int p, int r)
  *			2.Partition(int[] A, int p, int r)
+ *		MergeSort:
+ *			1.MergeSort(String[] A, int i, int j)
+ *			2.Merge(String[] A, int i, int m, int j)
  *
  *
  */
@@ -349,5 +352,57 @@ class handleSort{
 		}
 		
 	}
+
+	static String[] MergeSort(String[] A, int i, int j){
+		if(i < j){
+			int m = (int)(Math.floor((i + j)/2));
+			A = MergeSort(A,i,m);
+			A = MergeSort(A,m + 1,j);
+			A = Merge(A,i,m,j);		
+		}
+		return A;
+	}
+
+	static String[] Merge(String[] A, int i, int m, int j){
+		/*
+		 * Because the statement String[] b = A;
+		 * It's mean b array have the A array's location.
+		 * So, we change the B array's element(also A's reference is changed)
+		 * To avoid it, we need to create a object(for another space)
+		 * Use the for loop send the data one to one. 
+		 *
+		 */ 
+		String[] b = new String[A.length];
+		for(int s = 0; s < A.length; s++){
+			b[s] = A[s];
+		}
+		
+		int p = i;
+		int q = m + 1;
+		int r = i;
+		while(p <= m && q <= j){			
+			if(A[p].compareTo(A[q]) < 0){				
+				b[r] = A[p];
+				p = p + 1;
+			}else{				
+				b[r] = A[q];
+				q = q + 1;		
+			}			
+			r = r + 1;
+		}
+		
+		while(p <= m){
+			b[r] = A[p];
+			p = p + 1;
+			r = r + 1;			
+		}
+
+		while(q <= j){
+			b[r] = A[q];
+			q = q + 1;
+			r = r + 1;
+		}		
+		return b;
+	} 
 
 }
