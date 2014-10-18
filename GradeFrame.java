@@ -163,6 +163,26 @@ public class GradeFrame extends JFrame {
 		}
 		return dataArray;
 	} // end SortDataBaseOnIntArray method.
+	
+	static String[] SortDataBaseOnStringArray(String[] originalArray, String[] sortedArray, String[] dataArray){
+		for(int i = 1; i < originalArray.length; i++){
+			for(int u = 1; u < sortedArray.length; u++){
+				System.out.println("sortedArray[" + i + "] is: " + sortedArray[i] + " originalArray[" + u + "] is: " + originalArray[u]);
+				if(sortedArray[i].compareTo(originalArray[u]) == 0){
+					System.out.println("u = " + u + "i = " + i);
+					String temp = dataArray[i];
+					dataArray[i] = dataArray[u];
+					dataArray[u] = temp;
+					String temp1 = originalArray[i];
+					originalArray[i] = originalArray[u];
+					originalArray[u] = temp1;
+					originalArray[i] = "";
+					break;
+				}
+			}
+		}
+		return dataArray;
+	} // end SortDataBaseOnStringArray method.
 
 
 }
